@@ -1,0 +1,6 @@
+# Sao chep file nay thanh db.properties va dien thong tin cua ban
+# TUYET DOI KHONG commit file db.properties len Git
+
+db.url=jdbc:mysql://localhost:3306/zingmp3
+db.username=YOUR_MYSQL_USERNAME
+db.password=YOUR_MYSQL_PASSWORD
