@@ -5,17 +5,22 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SongForm {
+
     private Long id;
 
     @NotBlank(message = "Song name cannot be empty")
     private String name;
+
     @NotBlank(message = "Singer name cannot be empty")
     private String singer;
-    @NotNull(message = "Image cannot be empty")
+
+    // @NotNull only enforced on create via validation groups
     private MultipartFile image;
+
     @NotBlank(message = "Lyrics cannot be empty")
     private String lyrics;
-    @NotNull(message = "Audio cannot be empty")
+
+    // @NotNull only enforced on create via validation groups
     private MultipartFile audio;
 
     public SongForm() {
