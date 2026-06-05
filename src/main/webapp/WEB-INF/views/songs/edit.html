@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="/layout/layout :: head('Zing MP3 - Chỉnh sửa bài hát')"></head>
+<body>
+
+<nav th:replace="/layout/layout :: header"></nav>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="mb-4 d-flex align-items-center">
+                <a th:href="@{/songs}" class="btn btn-link text-white p-0 me-3 text-decoration-none">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </a>
+                <h2 class="fw-bold mb-0">Chỉnh sửa bài hát</h2>
+            </div>
+
+            <div class="card shadow-lg">
+                <div class="card-body p-4 p-md-5">
+                    <form th:action="@{/songs/update}" th:object="${songForm}" method="post"
+                          enctype="multipart/form-data">
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="mb-4">
+                            <label for="name" class="form-label text-uppercase">Tên bài hát</label>
+                            <input type="text" id="name" th:field="*{name}" class="form-control">
+                            <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="singer" class="form-label text-uppercase">Nghệ sĩ</label>
+                                <input type="text" id="singer" th:field="*{singer}" class="form-control" >
+                                <span class="text-danger" th:if="${#fields.hasErrors('singer')}" th:errors="*{singer}"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-uppercase">Ảnh bìa</label>
+                                <div class="current-info mb-3 d-flex align-items-center" th:if="${song.image}">
+                                    <img th:src="@{'/image/' + ${song.image}}" alt="Current image"
+                                         class="preview-img me-3">
+                                    <div class="small text-muted">Ảnh hiện tại</div>
+                                </div>
+                                <input type="file" id="image" th:field="*{image}" class="form-control" accept="image/*">
+                                <div class="form-text text-muted small mt-1">Để trống nếu giữ nguyên ảnh cũ</div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-uppercase">Tệp âm thanh</label>
+                                <div class="current-info mb-3 d-flex align-items-center" th:if="${song.audio}">
+                                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                        <i class="bi bi-music-note-beamed fs-4 text-primary"></i>
+                                    </div>
+                                    <div class="small text-muted text-truncate" th:text="${song.audio}">File cũ</div>
+                                </div>
+                                <input type="file" id="audio" th:field="*{audio}" class="form-control" accept="audio/*">
+                                <div class="form-text text-muted small mt-1">Để trống nếu giữ nguyên file cũ</div>
+                                <span class="text-danger" th:if="${#fields.hasErrors('audio')}" th:errors="*{audio}"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="lyrics" class="form-label text-uppercase">Lời bài hát</label>
+                            <textarea id="lyrics" th:field="*{lyrics}" class="form-control" rows="6"></textarea>
+                            <span class="text-danger" th:if="${#fields.hasErrors('lyrics')}" th:errors="*{lyrics}"></span>
+                        </div>
+
+                        <div class="pt-3">
+                            <button type="submit" class="btn btn-zing w-100 fs-5 py-2">
+                                <i class="bi bi-check2-circle me-2"></i> Lưu thay đổi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="/layout/layout :: scripts"></th:block>
+</body>
+</html>

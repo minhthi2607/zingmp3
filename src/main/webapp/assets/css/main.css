@@ -1,0 +1,239 @@
+:root {
+    --zing-purple: #7200a1;
+    --zing-purple-dark: #5b0081;
+    --zing-bg: #170f23;
+    --zing-card-bg: #2f2739;
+    --zing-text: #ffffff;
+    --zing-text-muted: #a0a0a0;
+    --input-bg: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--zing-bg);
+    color: var(--zing-text);
+    min-height: 100vh;
+}
+
+/* Common Components */
+.card {
+    background-color: var(--zing-card-bg);
+    border: none;
+    border-radius: 12px;
+}
+
+.btn-zing {
+    background-color: var(--zing-purple);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-zing:hover {
+    background-color: var(--zing-purple-dark);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(114, 0, 161, 0.4);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--zing-text) !important;
+    letter-spacing: -1px;
+}
+
+.navbar-brand span {
+    color: #c273ed;
+}
+
+/* Form Styles (Create/Edit) */
+.form-label {
+    color: var(--zing-text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-control:focus {
+    background-color: var(--input-bg);
+    border: 1px solid #3e3749;
+    color: var(--zing-text);
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+.form-control:focus {
+    border-color: var(--zing-purple);
+    box-shadow: 0 0 0 0.25rem rgba(114, 0, 161, 0.25);
+}
+
+.form-control::placeholder {
+    color: #6a5f7a;
+}
+
+.btn-outline-zing {
+    border: 1px solid var(--zing-purple);
+    color: var(--zing-text);
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 500;
+}
+
+.btn-outline-zing:hover {
+    background-color: rgba(114, 0, 161, 0.1);
+    color: white;
+    border-color: var(--zing-purple);
+}
+
+/* Index Table Styles */
+.table {
+    color: var(--zing-text);
+    border-color: #3e3749;
+}
+
+.table thead th {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--zing-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border-bottom: none;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #3e3749;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--zing-text);
+}
+
+.song-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.audio-player {
+    height: 32px;
+    filter: invert(90%) hue-rotate(180deg) brightness(1.5);
+}
+
+.modal-content {
+    background-color: var(--zing-card-bg);
+    color: var(--zing-text);
+    border-radius: 16px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #3e3749;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.badge-category {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--zing-text-muted);
+    font-weight: 400;
+    padding: 4px 10px;
+}
+
+.alert-zing {
+    background-color: var(--zing-purple);
+    color: white;
+    border: none;
+}
+
+/* Preview Styles (Edit) */
+.preview-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.current-info {
+    background-color: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px dashed #3e3749;
+}
+
+.btn-action {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--zing-text);
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--zing-text);
+}
+
+.btn-action.text-danger:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Pagination Styles */
+.pagination-container {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.pagination {
+    gap: 8px;
+}
+
+.pagination .page-link {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--zing-text-muted);
+    border-radius: 50% !important;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0;
+}
+
+.pagination .page-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--zing-text);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--zing-purple);
+    color: white;
+    box-shadow: 0 4px 12px rgba(114, 0, 161, 0.4);
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: transparent;
+    color: #4a4158;
+    cursor: not-allowed;
+    opacity: 0.4;
+}
