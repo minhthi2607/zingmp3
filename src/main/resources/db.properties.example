@@ -1,6 +1,6 @@
 # Sao chep file nay thanh db.properties va dien thong tin cua ban
 # TUYET DOI KHONG commit file db.properties len Git
 
-db.url=jdbc:mysql://localhost:3306/zingmp3
-db.username=root
-db.password=123456
+db.url=jdbc:mysql://localhost:3306/zingmp3?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+db.username=your_username
+db.password=your_password
