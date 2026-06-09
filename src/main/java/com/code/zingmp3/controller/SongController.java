@@ -1,7 +1,9 @@
 package com.code.zingmp3.controller;
 
+import com.code.zingmp3.model.Counter;
 import com.code.zingmp3.model.Song;
 import com.code.zingmp3.model.SongForm;
+import com.code.zingmp3.model.User;
 import com.code.zingmp3.service.ISongService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -25,10 +27,16 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/songs")
+@SessionAttributes({"counter", "user"})
 public class SongController {
 
     @Value("${file-upload}")
     private String fileUpload;
+
+    @ModelAttribute("counter")
+    public Counter setUpCounter () {
+        return new Counter();
+    }
 
     private static final List<String> ALLOWED_IMAGE_TYPES = Arrays.asList(
             "image/jpeg", "image/png", "image/gif", "image/webp"
@@ -37,6 +45,11 @@ public class SongController {
     private static final List<String> ALLOWED_AUDIO_TYPES = Arrays.asList(
             "audio/mpeg", "audio/mp3", "audio/ogg", "audio/wav", "audio/x-wav", "audio/flac"
     );
+
+    @ModelAttribute("user")
+    public User setupUser() {
+        return new User();
+    }
 
     private final ISongService songService;
 
@@ -63,8 +76,14 @@ public class SongController {
     }
 
     @GetMapping
-    public String index(@RequestParam(value = "page", defaultValue = "0") int page,
+    public String index(@ModelAttribute("counter") Counter counter,
+                        @RequestParam(value = "page", defaultValue = "0") int page,
+                        @ModelAttribute("user") User user,
                         Model model) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
+        counter.increment();
         Pageable pageable = PageRequest.of(page, 5);
         Page<Song> songs = songService.findAll(pageable);
         model.addAttribute("songs", songs);
@@ -72,16 +91,23 @@ public class SongController {
     }
 
     @GetMapping("/create")
-    public String create(Model model) {
+    public String create(@ModelAttribute("user") User user, Model model) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("songForm", new SongForm());
         return "/songs/create";
     }
 
     @PostMapping("/create")
-    public String store(@Validated @ModelAttribute("songForm") SongForm songForm,
+    public String store(@ModelAttribute("user") User user,
+                        @Validated @ModelAttribute("songForm") SongForm songForm,
                         BindingResult bindingResult,
                         Model model,
                         RedirectAttributes redirectAttributes) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
             return "/songs/create";
         }
@@ -116,7 +142,10 @@ public class SongController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
+    public String edit(@ModelAttribute("user") User user, @PathVariable("id") Long id, Model model) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
         Optional<Song> song = songService.findById(id);
         if (song.isPresent()) {
             Song s = song.get();
@@ -130,11 +159,16 @@ public class SongController {
     }
 
     @PostMapping("/update")
-    public String update(@Validated @ModelAttribute("songForm") SongForm songForm,
+    public String update(@ModelAttribute("user") User user,
+                         @Validated @ModelAttribute("songForm") SongForm songForm,
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirectAttributes) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
+            songService.findById(songForm.getId()).ifPresent(song -> model.addAttribute("song", song));
             return "/songs/edit";
         }
 
@@ -188,7 +222,10 @@ public class SongController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@ModelAttribute("user") User user, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        if (user.getUsername() == null) {
+            return "redirect:/login";
+        }
         songService.remove(id);
         redirectAttributes.addFlashAttribute("message", "Song deleted successfully");
         return "redirect:/songs";

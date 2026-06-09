@@ -16,10 +16,19 @@
 
 <nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark pt-4">
     <div class="container">
-        <a class="navbar-brand fs-3" th:href="@{/songs}">Zing<span>MP3</span></a>
-        <a th:href="@{/songs/create}" class="btn btn-zing shadow-sm">
-            <i class="bi bi-plus-lg me-1"></i> Tải lên bài hát
-        </a>
+        <a class="navbar-brand fs-3" th:href="@{/}">Zing<span>MP3</span></a>
+        <div class="d-flex align-items-center gap-3">
+            <th:block th:if="${session.user == null or session.user.username == null}">
+                <a th:href="@{/login}" class="text-decoration-none text-white-50 fw-medium small">Đăng nhập</a>
+                <a th:href="@{/register}" class="text-decoration-none text-white-50 fw-medium small">Đăng ký</a>
+            </th:block>
+            <th:block th:if="${session.user != null and session.user.username != null}">
+                <span class="text-white-50 fw-medium small" th:text="'Chào, ' + ${session.user.username}"></span>
+            </th:block>
+            <a th:href="@{/songs/create}" class="btn btn-zing shadow-sm">
+                <i class="bi bi-plus-lg me-1"></i> Tải lên bài hát
+            </a>
+        </div>
     </div>
 </nav>
 

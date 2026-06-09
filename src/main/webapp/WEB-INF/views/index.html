@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head('Zing MP3 - Trang chủ')">
+</head>
+<body>
+
+<nav th:replace="/layout/layout :: header"></nav>
+
+<main class="container my-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="p-5 mb-4 bg-dark rounded-4 shadow-lg position-relative overflow-hidden" 
+                 style="background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);">
+                <div class="container-fluid py-5 position-relative" style="z-index: 2;">
+                    <h1 class="display-4 fw-bold text-white">Chào mừng đến với Zing MP3</h1>
+                    <p class="col-md-8 fs-4 text-white-50">Khám phá thế giới âm nhạc không giới hạn với hàng triệu bài hát và nghệ sĩ hàng đầu.</p>
+                    <a th:href="@{/songs}" class="btn btn-zing btn-lg px-4 mt-3">Nghe ngay</a>
+                </div>
+                <div class="position-absolute end-0 bottom-0 p-4 opacity-25">
+                    <i class="bi bi-music-note-beamed" style="font-size: 10rem; color: white;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Songs Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0 text-white">Gợi Ý Cho Bạn</h2>
+        <a th:href="@{/songs}" class="text-decoration-none text-white-50 small fw-medium">Xem tất cả <i class="bi bi-chevron-right"></i></a>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 mb-5">
+        <div class="col" th:each="song : ${songs}">
+            <div class="card h-100 bg-transparent border-0 song-card">
+                <div class="position-relative overflow-hidden rounded-3 mb-2 shadow-sm">
+                    <img th:src="@{'/image/' + ${song.image}}" class="card-img-top song-thumbnail" th:alt="${song.name}" 
+                         style="aspect-ratio: 1/1; object-fit: cover; transition: transform 0.5s ease;">
+                    <div class="song-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center opacity-0 transition-all"
+                         style="background: rgba(0,0,0,0.4);">
+                        <button class="btn btn-zing rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                            <i class="bi bi-play-fill fs-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <h6 class="card-title text-truncate mb-1 fw-bold text-white" th:text="${song.name}">Tên bài hát</h6>
+                    <p class="card-text text-white-50 small text-truncate" th:text="${song.singer}">Ca sĩ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories/Features Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card bg-card p-4 h-100 d-flex flex-row align-items-center gap-4 cursor-pointer hover-bg" style="background-color: #2f2739; border-radius: 12px;">
+                <div class="feature-icon bg-primary bg-opacity-10 p-3 rounded-3 text-primary">
+                    <i class="bi bi-lightning-charge-fill fs-3"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1 text-white">Mới Phát Hành</h5>
+                    <p class="text-white-50 m-0 small">Cập nhật những ca khúc mới nhất mỗi ngày</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-card p-4 h-100 d-flex flex-row align-items-center gap-4 cursor-pointer hover-bg" style="background-color: #2f2739; border-radius: 12px;">
+                <div class="feature-icon bg-warning bg-opacity-10 p-3 rounded-3 text-warning">
+                    <i class="bi bi-star-fill fs-3"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1 text-white">Bảng Xếp Hạng</h5>
+                    <p class="text-white-50 m-0 small">Top 100 bài hát được nghe nhiều nhất</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="container py-5 border-top border-white border-opacity-10">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <h4 class="fw-bold mb-3">Zing<span>MP3</span></h4>
+            <p class="text-white-50 small">Ứng dụng nghe nhạc hàng đầu Việt Nam.</p>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-6 col-sm-4">
+                    <h6 class="fw-bold">Khám phá</h6>
+                    <ul class="list-unstyled text-white-50 small">
+                        <li class="mb-2">Bài hát</li>
+                        <li class="mb-2">Playlist</li>
+                        <li class="mb-2">Nghệ sĩ</li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm-4">
+                    <h6 class="fw-bold">Liên kết</h6>
+                    <ul class="list-unstyled text-white-50 small">
+                        <li class="mb-2">Giới thiệu</li>
+                        <li class="mb-2">Điều khoản</li>
+                        <li class="mb-2">Bản quyền</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div th:replace="/layout/layout :: scripts"></div>
+
+<style>
+    .song-card:hover .song-thumbnail {
+        transform: scale(1.1);
+    }
+    .song-card:hover .song-overlay {
+        opacity: 1 !important;
+    }
+    .hover-bg:hover {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        transition: all 0.3s ease;
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+</style>
+
+</body>
+</html>

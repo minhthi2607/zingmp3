@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('Đăng nhập - Zing MP3')}">
+</head>
+<body>
+<nav th:replace="~{layout/layout :: header}"></nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 fw-bold text-white">Đăng nhập</h2>
+                    
+                    <div th:if="${message}" class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+                        <span th:text="${message}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <form th:action="@{/login}" th:object="${user}" method="post">
+                        <div class="mb-4">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0" style="border-color: #3e3749;">
+                                    <i class="bi bi-person text-muted"></i>
+                                </span>
+                                <input type="text" th:field="*{username}" class="form-control border-start-0" 
+                                       id="username" placeholder="Nhập tên đăng nhập" required
+                                       th:value="${usernameRemembered}">
+
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0" style="border-color: #3e3749;">
+                                    <i class="bi bi-lock text-muted"></i>
+                                </span>
+                                <input type="password" th:field="*{password}" class="form-control border-start-0" 
+                                       id="password" placeholder="Nhập mật khẩu" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                <label class="form-check-label text-white-50" for="remember" style="font-size: 0.85rem;">Ghi nhớ đăng nhập</label>
+                            </div>
+                            <a href="#" class="text-decoration-none" style="color: #c273ed; font-size: 0.85rem;">Quên mật khẩu?</a>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-zing py-2">Đăng nhập</button>
+                        </div>
+
+                        <div class="text-center mt-4 text-white-50" style="font-size: 0.9rem;">
+                            Chưa có tài khoản? 
+                            <a th:href="@{/register}" class="text-decoration-none fw-medium" style="color: #c273ed;">Đăng ký ngay</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('Đăng ký - Zing MP3')}">
+</head>
+<body>
+<nav th:replace="~{layout/layout :: header}"></nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 fw-bold text-white">Đăng ký tài khoản</h2>
+                    
+                    <p class="text-center text-white-50 mb-4" style="font-size: 0.95rem;">
+                        Tham gia cộng đồng Zing MP3 để tận hưởng âm nhạc không giới hạn.
+                    </p>
+
+                    <form th:action="@{/register}" th:object="${user}" method="post">
+                        <div class="mb-4">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0" style="border-color: #3e3749;">
+                                    <i class="bi bi-person text-muted"></i>
+                                </span>
+                                <input type="text" th:field="*{username}" class="form-control border-start-0" 
+                                       id="username" placeholder="Từ 3-20 ký tự" required
+                                       th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0" style="border-color: #3e3749;">
+                                    <i class="bi bi-lock text-muted"></i>
+                                </span>
+                                <input type="password" th:field="*{password}" class="form-control border-start-0" 
+                                       id="password" placeholder="Tối thiểu 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số" required
+                                       th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirm-password" class="form-label">Xác nhận mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0" style="border-color: #3e3749;">
+                                    <i class="bi bi-check-circle text-muted"></i>
+                                </span>
+                                <input type="password" class="form-control border-start-0" 
+                                       id="confirm-password" placeholder="Nhập lại mật khẩu" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" required>
+                                <label class="form-check-label text-white-50" for="terms" style="font-size: 0.85rem;">
+                                    Tôi đồng ý với các <a href="#" class="text-decoration-none" style="color: #c273ed;">điều khoản sử dụng</a>.
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-zing py-2">Đăng ký ngay</button>
+                        </div>
+
+                        <div class="text-center mt-4 text-white-50" style="font-size: 0.9rem;">
+                            Đã có tài khoản? 
+                            <a th:href="@{/login}" class="text-decoration-none fw-medium" style="color: #c273ed;">Đăng nhập</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout/layout :: scripts}"></th:block>
+</body>
+</html>
