@@ -41,3 +41,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Sensitive config - do not commit ###
+src/main/resources/db.properties
