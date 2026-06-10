@@ -34,7 +34,7 @@ public class SongController {
     private String fileUpload;
 
     @ModelAttribute("counter")
-    public Counter setUpCounter () {
+    public Counter setUpCounter() {
         return new Counter();
     }
 
@@ -73,6 +73,16 @@ public class SongController {
     private void saveFile(MultipartFile file, String savedName) throws IOException {
         File dest = new File(fileUpload + savedName);
         FileCopyUtils.copy(file.getBytes(), dest);
+    }
+
+    // FIX 4: Xoa file cu tren disk khi khong con dung nua
+    private void deleteFile(String filename) {
+        if (filename != null && !filename.isEmpty()) {
+            File file = new File(fileUpload + filename);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
     }
 
     @GetMapping
@@ -137,7 +147,7 @@ public class SongController {
 
         Song song = new Song(songForm.getName(), songForm.getSinger(), savedImageName, songForm.getLyrics(), savedAudioName);
         songService.save(song);
-        redirectAttributes.addFlashAttribute("message", "Song created successfully");
+        redirectAttributes.addFlashAttribute("message", "Them bai hat thanh cong!");
         return "redirect:/songs";
     }
 
@@ -186,6 +196,8 @@ public class SongController {
                 String savedImageName = generateSafeFileName(songImage.getOriginalFilename());
                 try {
                     saveFile(songImage, savedImageName);
+                    // FIX 4: Xoa anh cu truoc khi thay anh moi
+                    deleteFile(song.getImage());
                     song.setImage(savedImageName);
                 } catch (IOException e) {
                     model.addAttribute("uploadError", "Loi khi upload anh, vui long thu lai.");
@@ -204,6 +216,8 @@ public class SongController {
                 String savedAudioName = generateSafeFileName(songAudio.getOriginalFilename());
                 try {
                     saveFile(songAudio, savedAudioName);
+                    // FIX 4: Xoa audio cu truoc khi thay audio moi
+                    deleteFile(song.getAudio());
                     song.setAudio(savedAudioName);
                 } catch (IOException e) {
                     model.addAttribute("uploadError", "Loi khi upload audio, vui long thu lai.");
@@ -216,18 +230,27 @@ public class SongController {
             song.setSinger(songForm.getSinger());
             song.setLyrics(songForm.getLyrics());
             songService.save(song);
-            redirectAttributes.addFlashAttribute("message", "Song updated successfully");
+            redirectAttributes.addFlashAttribute("message", "Cap nhat bai hat thanh cong!");
         }
         return "redirect:/songs";
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@ModelAttribute("user") User user, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@ModelAttribute("user") User user,
+                         @PathVariable("id") Long id,
+                         RedirectAttributes redirectAttributes) {
         if (user.getUsername() == null) {
             return "redirect:/login";
         }
+        // FIX 4: Xoa ca file tren disk khi xoa bai hat
+        Optional<Song> songOptional = songService.findById(id);
+        if (songOptional.isPresent()) {
+            Song song = songOptional.get();
+            deleteFile(song.getImage());
+            deleteFile(song.getAudio());
+        }
         songService.remove(id);
-        redirectAttributes.addFlashAttribute("message", "Song deleted successfully");
+        redirectAttributes.addFlashAttribute("message", "Xoa bai hat thanh cong!");
         return "redirect:/songs";
     }
 }

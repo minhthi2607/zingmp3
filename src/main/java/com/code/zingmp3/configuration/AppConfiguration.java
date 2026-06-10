@@ -31,7 +31,6 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -40,7 +39,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.code.zingmp3")
 @EnableJpaRepositories("com.code.zingmp3.repository")
-@PropertySource("classpath:upload_file.properties")
+@PropertySource({"classpath:upload_file.properties", "classpath:db.properties"})
 @EnableSpringDataWebSupport
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
     private ApplicationContext applicationContext;
@@ -48,13 +47,22 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     @Value("${file-upload}")
     private String upload;
 
+    // FIX 1: Inject tu db.properties thay vi hardcode
+    @Value("${db.url}")
+    private String dbUrl;
+
+    @Value("${db.username}")
+    private String dbUsername;
+
+    @Value("${db.password}")
+    private String dbPassword;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    //Thymeleaf
+    // Thymeleaf
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -81,7 +89,7 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return viewResolver;
     }
 
-    //JPA
+    // JPA
     @Bean
     @Qualifier(value = "entityManager")
     public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
@@ -104,9 +112,10 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/zingmp3?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        // FIX 1: Dung gia tri tu db.properties
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
         return dataSource;
     }
 
@@ -124,7 +133,7 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return properties;
     }
 
-    //Upload file
+    // Upload file
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**")
@@ -142,7 +151,4 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
 }
